@@ -41,6 +41,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
           cannot move out of the photo sphere.
           <a class="back" href="./">Back</a>
         </p>
+        <p><span id="errlog"></span></p>
       </details>
     </header>
     <script type="module">
@@ -85,8 +86,14 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             xrButton.enabled = supported;
           });
 
-          navigator.xr.requestSession('inline').then(onSessionStarted);
-          setTimeout(onRequestSession, 3000);
+          navigator.xr.requestSession('immersive-vr').then((session) => {
+            session.isImmersive = true;
+            onSessionStarted(session);
+          }).catch((err) => {
+            let errMessage = `XRSession creation failed: ${err.message}`;
+            document.getElementById("errlog").innerText = errMessage; 
+            console.log(errMessage);
+          });
         }
       }
 
@@ -115,8 +122,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
           xrButton.setSession(session);
           session.isImmersive = true;
           onSessionStarted(session);
-        }).catch((err) => {
-          console.log(`XRSession creation failed: ${err.message}`);
         });
       }
 
