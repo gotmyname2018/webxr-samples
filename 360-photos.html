@@ -86,17 +86,15 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             xrButton.enabled = supported;
           });
 
-          setTimeout(() => {
-            navigator.xr.requestSession('immersive-vr').then((session) => {
-              session.isImmersive = true;
-              document.getElementById("errlog").innerText = "OK";
-              onSessionStarted(session);
-            }).catch((err) => {
-              let errMessage = `XRSession creation failed: ${err.message}`;
-              document.getElementById("errlog").innerText = errMessage; 
-              console.log(errMessage);
-            });
-          }, 30000);
+          navigator.xr.requestSession('immersive-vr').then((session) => {
+            session.isImmersive = true;
+            document.getElementById("errlog").innerText = "OK";
+            onSessionStarted(session);
+          }).catch((err) => {
+            let errMessage = `XRSession creation failed: ${err.message}`;
+            document.getElementById("errlog").innerText = errMessage; 
+            console.log(errMessage);
+          });
         }
       }
 
